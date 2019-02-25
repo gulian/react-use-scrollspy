@@ -6,6 +6,7 @@ export default ({
   offsetPx = 0,
   sectionElementRefs = [],
   throttleMs = 100,
+  divId,
 }) => {
   const [activeSection, setActiveSection] = useState(activeSectionDefault);
 
@@ -28,10 +29,14 @@ export default ({
   });
 
   useEffect(() => {
-    window.addEventListener('scroll', handle);
+    const elt = divId ? document.getElementById(divId) : window; 
+
+    if(!elt) return; 
+
+    elt.addEventListener('scroll', handle);
 
     return () => {
-      window.removeEventListener('scroll', handle);
+      elt.removeEventListener('scroll', handle);
     };
   }, [sectionElementRefs, offsetPx]);
   return activeSection;
